@@ -41,12 +41,22 @@ TODO:
 - Circuit & cables
 - Case
 
+
+Beitian dual BN-220 GPS:
+
+PINOUT (Left to Right):
+1. GND
+2. TX
+3. RX
+4. VCC (3.0V - 5.5V, typical: 5V)
+
 */
 
 // include the library code:
 #include <LiquidCrystal.h>
 
 // initialize the library with the numbers of the interface pins
+// LiquidCrystal lcd(RS, E, D4, D5, D6, D7);
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 byte iconSat[] ={
