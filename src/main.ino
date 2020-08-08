@@ -126,6 +126,61 @@ byte BATTERY_100[] ={
     B11111
 };
 
+byte SIGNAL_NONE[] ={
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00000
+};
+
+byte SIGNAL_LOW[] ={
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B01000,
+    B00000
+};
+
+byte SIGNAL_MODERATE[] ={
+    B00000,
+    B00000,
+    B00000,
+    B00000,
+    B00100,
+    B00100,
+    B01100,
+    B00000
+};
+
+byte SIGNAL_GOOD[] ={
+    B00000,
+    B00000,
+    B00010,
+    B00010,
+    B00110,
+    B00110,
+    B01110,
+    B00000
+};
+
+byte SIGNAL_EXCELENT[] ={
+    B00001,
+    B00001,
+    B00011,
+    B00011,
+    B00111,
+    B00111,
+    B01111,
+    B00000
+};
+
 byte DEGREES[] ={
     B01110,
     B01010,
@@ -136,6 +191,8 @@ byte DEGREES[] ={
     B00000,
     B00000
 };
+
+
 
 
 /**
@@ -209,8 +266,9 @@ void printStuff()
 
     smartDelay(1000);
 
-    if (millis() > 5000 && gps.charsProcessed() < 10)
+    if (millis() > 5000 && gps.charsProcessed() < 10) {
         Serial.println(F("No GPS data received: check wiring"));
+    }
 }
 
 // This custom version of delay() ensures that the gps object
@@ -310,18 +368,26 @@ void showDateTime() {
 }
 
 void showGPSData() {
-    TinyGPSSpeed s = gps.speed;
     lcd.setCursor(0, 0);
-    char ss[32];
-    sprintf(ss, "%002fK/H", s.kmph());
-    lcd.print(s.kmph());
+    char ss[4];
+    sprintf(ss, "%003dK", (int)gps.speed.kmph());
+    lcd.print(ss);
 
-    lcd.setCursor(14, 0);
+    TinyGPSCourse c = gps.course;
+    lcd.setCursor(6, 0);
+    char cc[32];
+    sprintf(cc, "%003d^", (int)c.deg());
+    lcd.print(cc);
+
+    lcd.setCursor(12, 0);
     lcd.print(gps.satellites.value());
-    lcd.setCursor(15, 0);
+    lcd.setCursor(13, 0);
     lcd.write(byte(0));
 
-    lcd.setCursor(15, 1);
+    lcd.setCursor(14, 0);
+    lcd.write(byte(3));
+
+    lcd.setCursor(15, 0);
     lcd.write(byte(1));
 
     lcd.setCursor(14, 1);
@@ -335,6 +401,7 @@ void setup()
     lcd.createChar(0, iconSat);
     lcd.createChar(1, BATTERY_50);
     lcd.createChar(2, DEGREES);
+    lcd.createChar(3, SIGNAL_EXCELENT);
     lcd.home();
     // Print a message to the LCD.
     // lcd.print("K120 H180 A450");
