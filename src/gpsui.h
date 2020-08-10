@@ -8,16 +8,18 @@ public:
     gpsUI();
 
 public:
-    void OnLoop();
+    void onLoop();
 
     void showGPSData();
-    void printStuff();
+    void printDebugLogs();
 
-    void SetEnable(bool bFlag) {
-        bEnabled=bFlag;
+    void setEnabled(bool bFlag)
+    {
+        bEnabled = bFlag;
     }
 
-    void setGps(TinyGPSPlus *pGps) {
+    void setGps(TinyGPSPlus *pGps)
+    {
         gps = pGps;
     }
 

@@ -5,26 +5,28 @@
 class clockUI
 {
 public:
-    clockUI() {
-        bEnabled=false;
+    clockUI()
+    {
+        bEnabled = false;
         gps = NULL;
     };
 
 public:
-    void OnLoop();
+    void onLoop();
 
-    void showDateTime();
+    void showClockData();
 
-    void SetEnable(bool bFlag) {
-        bEnabled=bFlag;
+    void setEnabled(bool bFlag)
+    {
+        bEnabled = bFlag;
     }
 
-    void setGps(TinyGPSPlus *pGps) {
+    void setGps(TinyGPSPlus *pGps)
+    {
         gps = pGps;
     }
 
 protected:
     bool bEnabled;
     TinyGPSPlus *gps;
-
 };
