@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TinyGPS.h"
+#include "TinyGPSPlus.h"
 
 class clockUI
 {

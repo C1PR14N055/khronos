@@ -20,7 +20,6 @@ http://www.arduino.cc/en/Tutorial/LiquidCrystal
 TODO:
 - Galileo mode ENABLED
 - Fancy animation
-- Custom icons / chars in bytes
 - Add I/O
 - I/0 Secret combo ACM in morse
 - I/0 Secret combo GPS in morse (with small random deviations)
@@ -40,7 +39,7 @@ PINOUT (Left to Right):
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include "TinyGPS.h"
+#include "TinyGPSPlus.h"
 
 #include "clockui.h"
 #include "gpsui.h"
@@ -72,13 +71,13 @@ void setup()
 
 void loop()
 {
-    // 30 FPS delay while constant read
+    // 60 FPS delay while constant read
     unsigned long start = millis();
     do
     {
         while (Serial1.available())
             gps.encode(Serial1.read());
-    } while (millis() - start < 1000 / 30);
+    } while (millis() - start < 1000 / 60);
 
     // if (Serial1.available())
     //     gps.encode(Serial1.read());

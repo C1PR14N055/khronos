@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TinyGPS.h"
+#include "TinyGPSPlus.h"
 
 class gpsUI
 {
@@ -10,7 +10,7 @@ public:
 public:
     void onLoop();
 
-    void showGPSData();
+    void render();
     void printDebugLogs();
 
     void setEnabled(bool bFlag)

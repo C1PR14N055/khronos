@@ -15,16 +15,8 @@ void lcd::init()
     lcd_.begin(16, 2);
     // define custom icons
     lcd_.createChar((uint8_t)eIcons::_ICON_SATELLITE, ICON_SATELLITE);
-    lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY_0, ICON_BATTERY_0);
-    lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY_25, ICON_BATTERY_25);
-    lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY_50, ICON_BATTERY_50);
-    lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY_75, ICON_BATTERY_75);
-    lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY_100, ICON_BATTERY_100);
-    lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL_0, ICON_SIGNAL_0);
-    lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL_25, ICON_SIGNAL_25);
-    lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL_50, ICON_SIGNAL_50);
-    lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL_75, ICON_SIGNAL_75);
-    lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL_100, ICON_SIGNAL_100);
+    lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_0);
+    lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL, ICON_SIGNAL_100);
     lcd_.createChar((uint8_t)eIcons::_ICON_DEGREES, ICON_DEGREES);
 }
 
@@ -47,6 +39,53 @@ void lcd::printIcon(int nPos, int nLine, eIcons icon)
 {
     lcd_.setCursor(nPos, nLine);
     lcd_.write((uint8_t)icon);
+}
+
+void lcd::printSatelliteIcon(int nCol, int nRow) {
+    lcd::printIcon(nCol, nRow, eIcons::_ICON_SATELLITE);
+}
+
+void lcd::printBatteryIcon(int nCol, int nRow, float nBatteryPercent)
+{
+    if (nBatteryPercent > 87.5) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_100);
+    }
+    else if (nBatteryPercent > 62.5) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_75);
+    }
+    else if (nBatteryPercent > 37.5) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_50);
+    }
+    else if (nBatteryPercent > 12.5) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_25);
+    }
+    else if (nBatteryPercent >= 0) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_0);
+    }
+    lcd::printIcon(nCol, nRow, eIcons::_ICON_BATTERY);
+}
+
+void lcd::printSignalIcon(int nCol, int nRow, float nHDOP) {
+    if (nHDOP > 20) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL, ICON_SIGNAL_0);
+    }
+    else if (nHDOP > 10) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL, ICON_SIGNAL_25);
+    }
+    else if (nHDOP > 5) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL, ICON_SIGNAL_50);
+    }
+    else if (nHDOP > 2) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL, ICON_SIGNAL_75);
+    }
+    else if (nHDOP >= 1) {
+        lcd_.createChar((uint8_t)eIcons::_ICON_SIGNAL, ICON_SIGNAL_100);
+    }
+    lcd::printIcon(nCol, nRow, eIcons::_ICON_SIGNAL);
+}
+
+void lcd::printDegreesIcon(int nCol, int nRow) {
+    lcd::printIcon(nCol, nRow, eIcons::_ICON_DEGREES);
 }
 
 void lcd::setCursor(int nPos, int nLine)
