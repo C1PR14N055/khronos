@@ -11,6 +11,7 @@ public:
     void onLoop();
 
     void render();
+
     void printDebugLogs();
 
     void setEnabled(bool bFlag)

@@ -2,6 +2,7 @@
 
 #include "lcd.h"
 
+static const uint32_t USB_BAUD = 9600;
 static const uint32_t GPS_BAUD = 9600;
 
 gpsUI::gpsUI()
@@ -11,7 +12,7 @@ gpsUI::gpsUI()
 
     gps = NULL;
 
-    Serial.begin(9600); // USB serial
+    Serial.begin(USB_BAUD); // USB serial
     Serial1.begin(GPS_BAUD); // GPS serial
 }
 
@@ -98,7 +99,7 @@ void gpsUI::render()
     // Start first row
 
     // Speed in KM/H
-    lcd::printInt(0, 0, gps->speed.kmph(), "%03dK");
+    lcd::printInt(0, 0, gps->speed.kmph(), "%03dKH");
 
     // Degrees
     TinyGPSCourse c = gps->course;
@@ -112,19 +113,20 @@ void gpsUI::render()
     lcd::printSatelliteIcon(13, 0);
 
     // HDOP (Horizontal dilution of precission)
-    lcd::printSignalIcon(14, 0, 5.8);
+    lcd::printSignalIcon(14, 0, (float)gps->hdop.hdop());
 
     // Battery level
-    lcd::printBatteryIcon(15, 0, 88.8);
+    lcd::printBatteryIcon(15, 0, 50.7);
     // End first row
 
     // Start second row
     // Time
     char cTime[8];
-    sprintf(cTime, "%02d:%02d:%02d", gps->time.hour(), gps->time.minute(), gps->time.second());
+    sprintf(cTime, "%02d:%02d", gps->time.minute(), gps->time.second());
     lcd::print(0, 1, cTime);
     // Time / distance
-    lcd::print(9, 1, "30S/.5K");
+    // lcd::print(6, 1, "30S/.5K");
+    lcd::print(8, 1, "5M14S10K");
 
     // End second row
 }

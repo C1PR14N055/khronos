@@ -14,7 +14,7 @@ public:
 public:
     void onLoop();
 
-    void showClockData();
+    void render();
 
     void setEnabled(bool bFlag)
     {

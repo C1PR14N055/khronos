@@ -37,16 +37,13 @@ PINOUT (Left to Right):
 
 */
 
-#include <Arduino.h>
-#include <LiquidCrystal.h>
 #include "TinyGPSPlus.h"
 
+#include "lcd.h"
 #include "clockui.h"
 #include "gpsui.h"
-#include "lcd.h"
 
 // The TinyGPS++ object
-lcd lcdInstance;
 gpsUI gpsui;
 clockUI clockui;
 TinyGPSPlus gps;
@@ -71,16 +68,13 @@ void setup()
 
 void loop()
 {
-    // 60 FPS delay while constant read
+    // 30 FPS delay while constant read
     unsigned long start = millis();
     do
     {
         while (Serial1.available())
             gps.encode(Serial1.read());
-    } while (millis() - start < 1000 / 60);
-
-    // if (Serial1.available())
-    //     gps.encode(Serial1.read());
+    } while (millis() - start < 1000 / 30);
 
     gpsui.onLoop();
     clockui.onLoop();
