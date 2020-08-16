@@ -12,7 +12,7 @@ gpsUI::gpsUI()
 
     gps = NULL;
 
-    Serial.begin(USB_BAUD); // USB serial
+    Serial.begin(USB_BAUD);  // USB serial
     Serial1.begin(GPS_BAUD); // GPS serial
 }
 
@@ -32,10 +32,10 @@ void gpsUI::printDebugLogs()
     Serial.print(" Lng: ");
     Serial.println(gps->location.lng());
 
-    char cDate[16];
+    char cDate[32];
     sprintf(cDate, "Date: %02d/%02d/%04d", gps->date.day(), gps->date.month(), gps->date.year());
     Serial.println(cDate);
-    char cTime[16];
+    char cTime[32];
     sprintf(cTime, "Time: %02d:%02d", gps->time.hour(), gps->time.minute());
     Serial.println(cTime);
 
@@ -48,7 +48,7 @@ void gpsUI::printDebugLogs()
     Serial.print("Cardinal: ");
     Serial.println(gps->course.isValid() ? TinyGPSPlus::cardinal(gps->course.deg()) : "---");
 
-    Serial.print("Speed: ");
+    Serial.print("Speed km/h: ");
     Serial.println(gps->speed.kmph());
 
     unsigned long distanceKmToLondon =
@@ -96,39 +96,49 @@ void gpsUI::printDebugLogs()
 
 void gpsUI::render()
 {
-    // Start first row
-
     // Speed in KM/H
-    lcd::printInt(0, 0, gps->speed.kmph(), "%03dKH");
+    if (gps->speed.isValid())
+    {
+        lcd::printInt(0, 0, gps->speed.kmph(), "%03dKH");
+    }
 
-    // Degrees
-    TinyGPSCourse c = gps->course;
-    lcd::printInt(6, 0, (int)c.deg(), "%03d");
-    lcd::printDegreesIcon(9, 0);
+    // Course + degrees icon
+    if (gps->course.isValid())
+    {
+        lcd::printInt(6, 0, (int)gps->course.deg(), "%03d");
+        lcd::printDegreesIcon(9, 0);
+    }
 
     // Nr. SATs + icon
-    char cSats[2];
-    sprintf(cSats, "%02d", gps->satellites.value());
-    lcd::print(11, 0, cSats);
-    lcd::printSatelliteIcon(13, 0);
+    if (gps->satellites.isValid())
+    {
+        char cSats[2];
+        sprintf(cSats, "%02d", gps->satellites.value());
+        lcd::print(11, 0, cSats);
+        lcd::printSatelliteIcon(13, 0);
+    }
 
     // HDOP (Horizontal dilution of precission)
-    lcd::printSignalIcon(14, 0, (float)gps->hdop.hdop());
+    if (gps->hdop.isValid())
+    {
+        lcd::printSignalIcon(14, 0, (float)gps->hdop.hdop());
+    }
 
     // Battery level
     lcd::printBatteryIcon(15, 0, 50.7);
-    // End first row
 
-    // Start second row
     // Time
-    char cTime[8];
-    sprintf(cTime, "%02d:%02d", gps->time.minute(), gps->time.second());
-    lcd::print(0, 1, cTime);
+    if (gps->time.isValid())
+    {
+        char cTimee[8];
+        sprintf(cTimee, "%02d:%02d", gps->time.minute(), gps->time.second());
+        lcd::print(0, 1, cTimee);
+    }
     // Time / distance
-    // lcd::print(6, 1, "30S/.5K");
-    lcd::print(8, 1, "5M14S10K");
-
-    // End second row
+    if (gps->speed.isValid())
+    {
+        lcd::printTimeForDistance(7, 1, gps->speed.mps(), 10);
+    }
 }
 
 void gpsUI::onLoop()

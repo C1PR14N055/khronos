@@ -19,6 +19,7 @@ public:
     static void printBatteryIcon(int nCol, int nRow, float fBatteryPercent);
     static void printSignalIcon(int nCol, int nRow, float fHDOP);
     static void printDegreesIcon(int nCol, int nRow);
+    static void printTimeForDistance(int nCol, int nRow, float nSpeedMPS, int nDistanceKM);
     static void setCursor(int nCol, int nRow);
     static void clear();
 
