@@ -32,10 +32,10 @@ void gpsUI::printDebugLogs()
     Serial.print(" Lng: ");
     Serial.println(gps->location.lng());
 
-    char cDate[32];
+    char cDate[128];
     sprintf(cDate, "Date: %02d/%02d/%04d", gps->date.day(), gps->date.month(), gps->date.year());
     Serial.println(cDate);
-    char cTime[32];
+    char cTime[128];
     sprintf(cTime, "Time: %02d:%02d", gps->time.hour(), gps->time.minute());
     Serial.println(cTime);
 
@@ -97,26 +97,26 @@ void gpsUI::printDebugLogs()
 void gpsUI::render()
 {
     // Speed in KM/H
-    lcd::printInt(0, 0, gps->speed.isValid() ? gps->speed.kmph() : 0, "%03dKH");
+    lcd::printInt(0, 0, gps->speed.kmph(), "%03dKH");
 
     // Course + degrees icon
-    lcd::printInt(6, 0, gps->course.isValid() ? (int)gps->course.deg() : 0, "%03d");
+    lcd::printInt(6, 0, (int)gps->course.deg(), "%03d");
     lcd::printDegreesIcon(9, 0);
 
     // Nr. SATs + icon
-    char cSats[2];
-    sprintf(cSats, "%02d", gps->satellites.isValid() ? gps->satellites.value() : 0);
+    char cSats[64];
+    sprintf(cSats, "%02d", gps->satellites.value());
     lcd::print(11, 0, cSats);
     lcd::printSatelliteIcon(13, 0);
 
     // HDOP (Horizontal dilution of precission)
-    lcd::printSignalIcon(14, 0, gps->hdop.isValid() ? (float)gps->hdop.hdop() : 0);
+    lcd::printSignalIcon(14, 0, (float)gps->hdop.hdop());
 
     // Battery level
     lcd::printBatteryIcon(15, 0, 50.7);
 
     // Time
-    char cTimee[8];
+    char cTimee[64];
     sprintf(cTimee, "%02d:%02d",
             gps->time.isValid() ? gps->time.minute() : 0,
             gps->time.isValid() ? gps->time.second() : 0);

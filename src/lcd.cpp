@@ -30,7 +30,7 @@ void lcd::print(int nCol, int nRow, const char *pszText)
 
 void lcd::printInt(int nCol, int nRow, int nValue, const char *pszFormat /*= NULL*/)
 {
-    char cc[32];
+    char cc[64];
     sprintf(cc, (pszFormat) ? pszFormat : "%d", nValue);
 
     lcd_.setCursor(nCol, nRow);
@@ -113,14 +113,14 @@ void lcd::printArrivalTimeElapsed(int nCol, int nRow, float nSpeedMPS, int nDist
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
         // calculate stuff
-        char cTimeForDistance[32];
+        char cTimeForDistance[128];
         sprintf(cTimeForDistance, "%dM%02dS/%02dK", minutes, seconds, nDistanceKM);
         lcd::print(nCol, nRow, cTimeForDistance);
     }
     else
     {
         // infinity
-        char cDistance[32];
+        char cDistance[128];
         sprintf(cDistance, "-M--S/%02dK", nDistanceKM);
         lcd::print(nCol, nRow, cDistance);
     }
