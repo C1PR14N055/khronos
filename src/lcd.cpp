@@ -98,7 +98,8 @@ void lcd::printSignalIcon(int nCol, int nRow, float fHDOP)
     lcd::printIcon(nCol, nRow, eIcons::_ICON_SIGNAL);
 }
 
-void lcd::printTimeForDistance(int nCol, int nRow, float nSpeedMPS, int nDistanceKM)
+// estimated time elapsed for arrival
+void lcd::printArrivalTimeElapsed(int nCol, int nRow, float nSpeedMPS, int nDistanceKM)
 {
     // if speed > 1 and less than 360 km/h
     if (nSpeedMPS > 1 && nSpeedMPS < 100)
@@ -119,7 +120,9 @@ void lcd::printTimeForDistance(int nCol, int nRow, float nSpeedMPS, int nDistanc
     else
     {
         // infinity
-        lcd::print(nCol, nRow, "-M--S/--K");
+        char cDistance[32];
+        sprintf(cDistance, "-M--S/%02dK", nDistanceKM);
+        lcd::print(nCol, nRow, cDistance);
     }
 }
 

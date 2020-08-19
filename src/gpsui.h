@@ -27,4 +27,7 @@ public:
 protected:
     bool bEnabled;
     TinyGPSPlus *gps;
+
+private:
+    int nDistanceForATEkm = 1; // distance for arrival time elapsed, in kilometers
 };
