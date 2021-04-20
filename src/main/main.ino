@@ -29,11 +29,11 @@ TODO:
 
 Beitian dual BN-220 GPS:
 
-PINOUT (Left to Right):
+PINOUT (Left to Right) with 2 holes face up:
 1. GND
-2. ??
-3. ??
-4.(3.0V - 5.5V, typical: 5V)
+2. GPS TX
+3. GPS RX
+4. (3.0V - 5.5V, typical: 5V)
 
 */
 
