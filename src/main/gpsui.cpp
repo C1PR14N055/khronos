@@ -13,7 +13,7 @@ gpsUI::gpsUI()
     gps = NULL;
 
     Serial.begin(USB_BAUD);  // USB serial
-    Serial1.begin(GPS_BAUD); // GPS serial
+    Serial1.begin(GPS_BAUD); // TX/RX serial
 }
 
 void gpsUI::printDebugLogs()
@@ -90,7 +90,7 @@ void gpsUI::printDebugLogs()
 
     if (millis() > 5000 && gps->charsProcessed() < 10)
     {
-        Serial.println(F("No GPS data received!"));
+        Serial.println(F("No GPS data received, check TX/RX and GPS VSS = ARDUINO 3V OUTPUT!"));
     }
 }
 
@@ -157,6 +157,6 @@ void gpsUI::onLoop()
         start = seconds;
     }
 
-    // printDebugLogs();
+    printDebugLogs();
     render();
 }
