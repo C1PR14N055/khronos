@@ -11,7 +11,7 @@ enum FUNCTION_MODES
 };
 
 // default mode (clock)
-FUNCTION_MODES mode = FUNCTION_MODES::CLOCK;
+FUNCTION_MODES mode;
 // Pin A0 connected to reed (magnetic switch)
 const int REED_PIN = A0;
 // RGB LED pins
@@ -26,9 +26,15 @@ TinyGPSPlus gps;
 
 void setup()
 {
-    // initialize digital pin LED_BUILTIN as an output.
+    // init digital pin LED_BUILTIN as an output
     pinMode(LED_BUILTIN, OUTPUT);
 
+    // init RGB LED pins as outputs
+    pinMode(LED_R_PIN, OUTPUT);
+    pinMode(LED_G_PIN, OUTPUT);
+    pinMode(LED_B_PIN, OUTPUT);
+
+    // init magnetic switch pin as input
     pinMode(REED_PIN, INPUT_PULLUP);
 
     // init LCD
@@ -38,8 +44,34 @@ void setup()
     gpsui.setGps(&gps);
     clockui.setGps(&gps);
 
+    // se default to CLOCK
+    mode = FUNCTION_MODES::CLOCK;
     gpsui.setEnabled(false);
     clockui.setEnabled(true);
+}
+
+// TODO: separate RGB
+void blinkDefaultLED()
+{
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(15);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(15);
+
+    digitalWrite(LED_R_PIN, HIGH);
+    delay(17);
+    digitalWrite(LED_R_PIN, LOW);
+    delay(17);
+
+    digitalWrite(LED_G_PIN, HIGH);
+    delay(17);
+    digitalWrite(LED_G_PIN, LOW);
+    delay(17);
+
+    digitalWrite(LED_B_PIN, HIGH);
+    delay(17);
+    digitalWrite(LED_B_PIN, LOW);
+    delay(17);
 }
 
 void loop()
@@ -51,12 +83,10 @@ void loop()
     // If the pin reads low for 5 seconds, the switch is closed
     while (proximity == LOW && millis() - switchStart <= 5000)
     {
-        proximity = digitalRead(REED_PIN);
         // waiting for 5 seconds
-        digitalWrite(LED_BUILTIN, HIGH);
-        delay(50);
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(50);
+        proximity = digitalRead(REED_PIN);
+        // blink delays
+        blinkDefaultLED();
     }
 
     // If the timer passed the 5 second mark
