@@ -27,24 +27,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <ctype.h>
 #include <stdlib.h>
 
-#define _GPRMCterm   "GPRMC"
-#define _GPGGAterm   "GPGGA"
-#define _GNRMCterm   "GNRMC"
-#define _GNGGAterm   "GNGGA"
+#define _GPRMCterm "GPRMC"
+#define _GPGGAterm "GPGGA"
+#define _GNRMCterm "GNRMC"
+#define _GNGGAterm "GNGGA"
 
 TinyGPSPlus::TinyGPSPlus()
-    : parity(0)
-    , isChecksumTerm(false)
-    , curSentenceType(GPS_SENTENCE_OTHER)
-    , curTermNumber(0)
-    , curTermOffset(0)
-    , sentenceHasFix(false)
-    , customElts(0)
-    , customCandidates(0)
-    , encodedCharCount(0)
-    , sentencesWithFixCount(0)
-    , failedChecksumCount(0)
-    , passedChecksumCount(0)
+    : parity(0), isChecksumTerm(false), curSentenceType(GPS_SENTENCE_OTHER), curTermNumber(0), curTermOffset(0), sentenceHasFix(false), customElts(0), customCandidates(0), encodedCharCount(0), sentencesWithFixCount(0), failedChecksumCount(0), passedChecksumCount(0)
 {
     term[0] = '\0';
 }
@@ -115,9 +104,11 @@ int TinyGPSPlus::fromHex(char a)
 int32_t TinyGPSPlus::parseDecimal(const char *term)
 {
     bool negative = *term == '-';
-    if (negative) ++term;
+    if (negative)
+        ++term;
     int32_t ret = 100 * (int32_t)atol(term);
-    while (isdigit(*term)) ++term;
+    while (isdigit(*term))
+        ++term;
     if (*term == '.' && isdigit(term[1]))
     {
         ret += 10 * (term[1] - '0');
@@ -217,7 +208,8 @@ bool TinyGPSPlus::endOfTermHandler()
             curSentenceType = GPS_SENTENCE_OTHER;
 
         // Any custom candidates of this sentence type?
-        for (customCandidates = customElts; customCandidates != NULL && strcmp(customCandidates->sentenceName, term) < 0; customCandidates = customCandidates->next);
+        for (customCandidates = customElts; customCandidates != NULL && strcmp(customCandidates->sentenceName, term) < 0; customCandidates = customCandidates->next)
+            ;
         if (customCandidates != NULL && strcmp(customCandidates->sentenceName, term) > 0)
             customCandidates = NULL;
 
@@ -289,7 +281,7 @@ double TinyGPSPlus::distanceBetween(double lat1, double long1, double lat2, doub
     // distance computation for hypothetical sphere of radius 6372795 meters.
     // Because Earth is no exact sphere, rounding errors may be up to 0.5%.
     // Courtesy of Maarten Lamers
-    double delta = radians(long1-long2);
+    double delta = radians(long1 - long2);
     double sdlong = sin(delta);
     double cdlong = cos(delta);
     lat1 = radians(lat1);
@@ -313,7 +305,7 @@ double TinyGPSPlus::courseTo(double lat1, double long1, double lat2, double long
     // both specified as signed decimal-degrees latitude and longitude.
     // Because Earth is no exact sphere, calculated course may be off by a tiny fraction.
     // Courtesy of Maarten Lamers
-    double dlon = radians(long2-long1);
+    double dlon = radians(long2 - long1);
     lat1 = radians(lat1);
     lat2 = radians(lat2);
     double a1 = sin(dlon) * cos(lat2);
@@ -329,7 +321,7 @@ double TinyGPSPlus::courseTo(double lat1, double long1, double lat2, double long
 
 const char *TinyGPSPlus::cardinal(double course)
 {
-    static const char* directions[] ={ "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
+    static const char *directions[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
     int direction = (int)((course + 11.25f) / 22.5f);
     return directions[direction % 16];
 }

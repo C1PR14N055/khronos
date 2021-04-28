@@ -40,35 +40,46 @@ struct RawDegrees
     uint16_t deg;
     uint32_t billionths;
     bool negative;
+
 public:
     RawDegrees() : deg(0), billionths(0), negative(false)
-    {}
+    {
+    }
 };
 
 struct TinyGPSLocation
 {
     friend class TinyGPSPlus;
+
 public:
-    bool isValid() const {
+    bool isValid() const
+    {
         return valid;
     }
-    bool isUpdated() const {
+    bool isUpdated() const
+    {
         return updated;
     }
-    uint32_t age() const {
+    uint32_t age() const
+    {
         return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX;
     }
-    const RawDegrees &rawLat() {
-        updated = false; return rawLatData;
+    const RawDegrees &rawLat()
+    {
+        updated = false;
+        return rawLatData;
     }
-    const RawDegrees &rawLng() {
-        updated = false; return rawLngData;
+    const RawDegrees &rawLng()
+    {
+        updated = false;
+        return rawLngData;
     }
     double lat();
     double lng();
 
     TinyGPSLocation() : valid(false), updated(false)
-    {}
+    {
+    }
 
 private:
     bool valid, updated;
@@ -82,26 +93,33 @@ private:
 struct TinyGPSDate
 {
     friend class TinyGPSPlus;
+
 public:
-    bool isValid() const {
+    bool isValid() const
+    {
         return valid;
     }
-    bool isUpdated() const {
+    bool isUpdated() const
+    {
         return updated;
     }
-    uint32_t age() const {
+    uint32_t age() const
+    {
         return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX;
     }
 
-    uint32_t value() {
-        updated = false; return date;
+    uint32_t value()
+    {
+        updated = false;
+        return date;
     }
     uint16_t year();
     uint8_t month();
     uint8_t day();
 
     TinyGPSDate() : valid(false), updated(false), date(0)
-    {}
+    {
+    }
 
 private:
     bool valid, updated;
@@ -114,19 +132,25 @@ private:
 struct TinyGPSTime
 {
     friend class TinyGPSPlus;
+
 public:
-    bool isValid() const {
+    bool isValid() const
+    {
         return valid;
     }
-    bool isUpdated() const {
+    bool isUpdated() const
+    {
         return updated;
     }
-    uint32_t age() const {
+    uint32_t age() const
+    {
         return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX;
     }
 
-    uint32_t value() {
-        updated = false; return time;
+    uint32_t value()
+    {
+        updated = false;
+        return time;
     }
     uint8_t hour();
     uint8_t minute();
@@ -134,7 +158,8 @@ public:
     uint8_t centisecond();
 
     TinyGPSTime() : valid(false), updated(false), time(0)
-    {}
+    {
+    }
 
 private:
     bool valid, updated;
@@ -147,22 +172,29 @@ private:
 struct TinyGPSDecimal
 {
     friend class TinyGPSPlus;
+
 public:
-    bool isValid() const {
+    bool isValid() const
+    {
         return valid;
     }
-    bool isUpdated() const {
+    bool isUpdated() const
+    {
         return updated;
     }
-    uint32_t age() const {
+    uint32_t age() const
+    {
         return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX;
     }
-    int32_t value() {
-        updated = false; return val;
+    int32_t value()
+    {
+        updated = false;
+        return val;
     }
 
     TinyGPSDecimal() : valid(false), updated(false), val(0)
-    {}
+    {
+    }
 
 private:
     bool valid, updated;
@@ -175,22 +207,29 @@ private:
 struct TinyGPSInteger
 {
     friend class TinyGPSPlus;
+
 public:
-    bool isValid() const {
+    bool isValid() const
+    {
         return valid;
     }
-    bool isUpdated() const {
+    bool isUpdated() const
+    {
         return updated;
     }
-    uint32_t age() const {
+    uint32_t age() const
+    {
         return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX;
     }
-    uint32_t value() {
-        updated = false; return val;
+    uint32_t value()
+    {
+        updated = false;
+        return val;
     }
 
     TinyGPSInteger() : valid(false), updated(false), val(0)
-    {}
+    {
+    }
 
 private:
     bool valid, updated;
@@ -202,46 +241,56 @@ private:
 
 struct TinyGPSSpeed : TinyGPSDecimal
 {
-    double knots() {
+    double knots()
+    {
         return value() / 100.0;
     }
-    double mph() {
+    double mph()
+    {
         return _GPS_MPH_PER_KNOT * value() / 100.0;
     }
-    double mps() {
+    double mps()
+    {
         return _GPS_MPS_PER_KNOT * value() / 100.0;
     }
-    double kmph() {
+    double kmph()
+    {
         return _GPS_KMPH_PER_KNOT * value() / 100.0;
     }
 };
 
 struct TinyGPSCourse : public TinyGPSDecimal
 {
-    double deg() {
+    double deg()
+    {
         return value() / 100.0;
     }
 };
 
 struct TinyGPSAltitude : TinyGPSDecimal
 {
-    double meters() {
+    double meters()
+    {
         return value() / 100.0;
     }
-    double miles() {
+    double miles()
+    {
         return _GPS_MILES_PER_METER * value() / 100.0;
     }
-    double kilometers() {
+    double kilometers()
+    {
         return _GPS_KM_PER_METER * value() / 100.0;
     }
-    double feet() {
+    double feet()
+    {
         return _GPS_FEET_PER_METER * value() / 100.0;
     }
 };
 
 struct TinyGPSHDOP : TinyGPSDecimal
 {
-    double hdop() {
+    double hdop()
+    {
         return value() / 100.0;
     }
 };
@@ -250,21 +299,26 @@ class TinyGPSPlus;
 class TinyGPSCustom
 {
 public:
-    TinyGPSCustom() {};
+    TinyGPSCustom(){};
     TinyGPSCustom(TinyGPSPlus &gps, const char *sentenceName, int termNumber);
     void begin(TinyGPSPlus &gps, const char *_sentenceName, int _termNumber);
 
-    bool isUpdated() const {
+    bool isUpdated() const
+    {
         return updated;
     }
-    bool isValid() const {
+    bool isValid() const
+    {
         return valid;
     }
-    uint32_t age() const {
+    uint32_t age() const
+    {
         return valid ? millis() - lastCommitTime : (uint32_t)ULONG_MAX;
     }
-    const char *value() {
-        updated = false; return buffer;
+    const char *value()
+    {
+        updated = false;
+        return buffer;
     }
 
 private:
@@ -286,8 +340,10 @@ class TinyGPSPlus
 public:
     TinyGPSPlus();
     bool encode(char c); // process one character received from GPS
-    TinyGPSPlus &operator << (char c) {
-        encode(c); return *this;
+    TinyGPSPlus &operator<<(char c)
+    {
+        encode(c);
+        return *this;
     }
 
     TinyGPSLocation location;
@@ -299,7 +355,8 @@ public:
     TinyGPSInteger satellites;
     TinyGPSHDOP hdop;
 
-    static const char *libraryVersion() {
+    static const char *libraryVersion()
+    {
         return _GPS_VERSION;
     }
 
@@ -310,22 +367,29 @@ public:
     static int32_t parseDecimal(const char *term);
     static void parseDegrees(const char *term, RawDegrees &deg);
 
-    uint32_t charsProcessed()   const {
+    uint32_t charsProcessed() const
+    {
         return encodedCharCount;
     }
-    uint32_t sentencesWithFix() const {
+    uint32_t sentencesWithFix() const
+    {
         return sentencesWithFixCount;
     }
-    uint32_t failedChecksum()   const {
+    uint32_t failedChecksum() const
+    {
         return failedChecksumCount;
     }
-    uint32_t passedChecksum()   const {
+    uint32_t passedChecksum() const
+    {
         return passedChecksumCount;
     }
 
 private:
-    enum {
-        GPS_SENTENCE_GPGGA, GPS_SENTENCE_GPRMC, GPS_SENTENCE_OTHER
+    enum
+    {
+        GPS_SENTENCE_GPGGA,
+        GPS_SENTENCE_GPRMC,
+        GPS_SENTENCE_OTHER
     };
 
     // parsing state variables
