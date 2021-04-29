@@ -86,6 +86,9 @@ void gpsUI::printDebugLogs()
     Serial.print("Failed checksum: ");
     Serial.println(gps->failedChecksum());
 
+    Serial.print("Senteces with fix: ");
+    Serial.println(gps->sentencesWithFix());
+
     Serial.println("-----------------------------------");
 
     if (millis() > 5000 && gps->charsProcessed() < 10)
