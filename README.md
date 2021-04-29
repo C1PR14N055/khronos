@@ -1,4 +1,4 @@
-# KHRONOS (+/- Galileo Galilei)
+# KHRONOS (+/- Galileo)
 
 ## TODO:
 -   [x] Galileo mode ENABLED ~~w/ Xfancy animation~~
