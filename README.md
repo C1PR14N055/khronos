@@ -12,6 +12,11 @@
 
 ## 1. LiquidCrystal Library - Hello World circuit
 
+```cpp
+LiquidCrystal lcd(RS, E, D4, D5, D6, D7); + VCC - GND
+LiquidCrystal lcd_(12, 11, 5, 4, 3, 2);
+```
+
 -   LCD RS pin to digital pin 12
 -   LCD Enable pin to digital pin 11
 -   LCD D4 pin to digital pin 5
@@ -27,7 +32,7 @@
 
 **Note** http://www.arduino.cc/en/Tutorial/LiquidCrystal
 
-## Beitian dual BN-220 GPS info
+## 2. Beitian dual BN-220 GPS info
 
 PINOUT (Left to Right) with 2 holes face up, antena faced to the ground:
 
@@ -35,3 +40,7 @@ PINOUT (Left to Right) with 2 holes face up, antena faced to the ground:
 2. GPS TX
 3. GPS RX
 4. (3.0V - 5.5V, typical: 5V)
+
+## Magnetic switch
+
+Ground and

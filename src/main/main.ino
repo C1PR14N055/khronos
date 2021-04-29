@@ -4,6 +4,21 @@
 #include "clockui.h"
 #include "gpsui.h"
 
+enum FUNCTION_MODES
+{
+    CLOCK = 0,
+    GPS = 1,
+};
+
+// default mode (clock)
+FUNCTION_MODES mode;
+// Pin A0 connected to reed (magnetic switch)
+const int REED_PIN = A0;
+// RGB LED pins
+const int LED_R_PIN = A1;
+const int LED_G_PIN = A2;
+const int LED_B_PIN = A3;
+
 // The TinyGPS++ object
 gpsUI gpsui;
 clockUI clockui;
@@ -11,31 +26,96 @@ TinyGPSPlus gps;
 
 void setup()
 {
+    // init digital pin LED_BUILTIN as an output
+    pinMode(LED_BUILTIN, OUTPUT);
+
+    // init RGB LED pins as outputs
+    pinMode(LED_R_PIN, OUTPUT);
+    pinMode(LED_G_PIN, OUTPUT);
+    pinMode(LED_B_PIN, OUTPUT);
+
+    // init magnetic switch pin as input
+    pinMode(REED_PIN, INPUT_PULLUP);
+
+    // init LCD
     lcd::init();
 
-    // Set GPS
+    // Set GPS instance available to gpsui and clockui
     gpsui.setGps(&gps);
     clockui.setGps(&gps);
 
-    if (true)
-    {
-        gpsui.setEnabled(true);
-    }
-    else
-    {
-        clockui.setEnabled(true);
-    }
+    // se default to CLOCK
+    mode = FUNCTION_MODES::CLOCK;
+    gpsui.setEnabled(false);
+    clockui.setEnabled(true);
+}
+
+// TODO: separate RGB
+void blinkDefaultLED()
+{
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(15);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(15);
+
+    digitalWrite(LED_R_PIN, HIGH);
+    delay(17);
+    digitalWrite(LED_R_PIN, LOW);
+    delay(17);
+
+    digitalWrite(LED_G_PIN, HIGH);
+    delay(17);
+    digitalWrite(LED_G_PIN, LOW);
+    delay(17);
+
+    digitalWrite(LED_B_PIN, HIGH);
+    delay(17);
+    digitalWrite(LED_B_PIN, LOW);
+    delay(17);
 }
 
 void loop()
 {
+    // Read the state of the switch
+    int proximity = digitalRead(REED_PIN);
+    // switch timer
+    unsigned long switchStart = millis();
+    // If the pin reads low for 5 seconds, the switch is closed
+    while (proximity == LOW && millis() - switchStart <= 5000)
+    {
+        // waiting for 5 seconds
+        proximity = digitalRead(REED_PIN);
+        // blink delays
+        blinkDefaultLED();
+    }
+
+    // If the timer passed the 5 second mark
+    if (millis() - switchStart >= 5000)
+    {
+        // toggle modes
+        if (mode == FUNCTION_MODES::CLOCK)
+        {
+            mode = FUNCTION_MODES::GPS;
+            clockui.setEnabled(false);
+            gpsui.setEnabled(true);
+            Serial.print("Switch closed, GPS ENABLED");
+        }
+        else
+        {
+            mode = FUNCTION_MODES::CLOCK;
+            gpsui.setEnabled(false);
+            clockui.setEnabled(true);
+            Serial.print("Switch opened, CLOCK ENABLED");
+        }
+    }
+
     // 30 FPS delay while constant read
-    unsigned long start = millis();
+    unsigned long gpsStart = millis();
     do
     {
         while (Serial1.available())
             gps.encode(Serial1.read());
-    } while (millis() - start < 1000 / 30);
+    } while (millis() - gpsStart < 1000 / 30);
 
     gpsui.onLoop();
     clockui.onLoop();
