@@ -1,6 +1,7 @@
 # KHRONOS (+/- Galileo)
 
 ## TODO:
+-   [ ] Add start animation (info, copywrite, fake name, url pixel?)
 -   [ ] Add I/O - deviation correction option (accuracy realtime vs speed = 10 vs 5 second hold option)
 -   [ ] Blink LEDs custom 
 -   [ ] Swtiching RGB all blink + changing UI sets LED to RED || GREEN (after 5 / 10 sec)
