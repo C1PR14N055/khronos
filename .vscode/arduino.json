@@ -1,5 +1,5 @@
 {
-  "board": "arduino:avr:micro",
-  "port": "/dev/ttyACM1",
-  "sketch": "src/main/main.ino"
+    "board": "arduino:avr:micro",
+    "port": "/dev/tty.usbmodem14501",
+    "sketch": "src/main/main.ino"
 }
