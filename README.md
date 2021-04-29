@@ -1,21 +1,24 @@
 # KHRONOS (+/- Galileo)
 
 ## TODO:
--   [x] Galileo mode ENABLED ~~w/ Xfancy animation~~
 -   [ ] Add I/O - deviation correction option (accuracy realtime vs speed = 10 vs 5 second hold option)
--   [x] Add with charge / overdischarge / boost to 5V circuit
--   [x] Add Li-ION battery
--   [x] Circuit & cables
--   [x] Case
--   [x] Adapt
--   [ ] RGB LED Blink 
--   [ ] Swtiching RGB all blink + changing UI sets LED to RED || GREEN 
+-   [ ] Blink LEDs custom 
+-   [ ] Swtiching RGB all blink + changing UI sets LED to RED || GREEN (after 5 / 10 sec)
 -   [ ] Charging LED flashes blue
 -   [ ] Data +/i wires to USB charger
 -   [ ] VREF jumper (when charging)
 -   [ ] Quiesent current small consumer or diode?
 -   [ ] Show BATT V as X/X in corner alternating with icon
 -   [ ] Lower LED power
+
+## DONE:
+-   [x] Galileo mode ENABLED ~~w/ Xfancy animation~~
+-   [x] Add with charge / overdischarge / boost to 5V circuit
+-   [x] Add Li-ION battery
+-   [x] Circuit & cables
+-   [x] Case
+-   [x] Adapt
+-   [ ] RGB LED 
 
 ## 1. LiquidCrystal Library - Hello World circuit
 
