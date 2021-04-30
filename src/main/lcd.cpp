@@ -50,21 +50,25 @@ void lcd::printSatelliteIcon(int nCol, int nRow)
 
 void lcd::printBatteryIcon(int nCol, int nRow, float fBatteryPercent)
 {
-    if (fBatteryPercent > 87.5)
+    if (fBatteryPercent > 99)
     {
         lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_100);
     }
-    else if (fBatteryPercent > 62.5)
+    else if (fBatteryPercent > 80)
     {
-        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_75);
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_80);
     }
-    else if (fBatteryPercent > 37.5)
+    else if (fBatteryPercent > 60)
     {
-        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_50);
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_60);
     }
-    else if (fBatteryPercent > 12.5)
+    else if (fBatteryPercent > 40)
     {
-        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_25);
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_40);
+    }
+    else if (fBatteryPercent > 20)
+    {
+        lcd_.createChar((uint8_t)eIcons::_ICON_BATTERY, ICON_BATTERY_20);
     }
     else if (fBatteryPercent >= 0)
     {
