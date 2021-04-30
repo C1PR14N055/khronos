@@ -1,14 +1,25 @@
-# khronos
+# KHRONOS (+/- Galileo)
 
 ## TODO:
+-   [ ] Add start animation (info, copywrite, fake name, url pixel?)
+-   [ ] Add I/O - deviation correction option (accuracy realtime vs speed = 10 vs 5 second hold option)
+-   [ ] Blink LEDs custom 
+-   [ ] Swtiching RGB all blink + changing UI sets LED to RED || GREEN (after 5 / 10 sec)
+-   [ ] Charging LED flashes blue
+-   [ ] Data +/i wires to USB charger
+-   [ ] VREF jumper (when charging)
+-   [ ] Quiesent current small consumer or diode?
+-   [ ] Show BATT V as X/X in corner alternating with icon
+-   [ ] Lower LED power
 
--   [ ] Galileo mode ENABLED w/ fancy animation
--   [ ] Add I/O - random deviations option
+## DONE:
+-   [x] Galileo mode ENABLED ~~w/ Xfancy animation~~
 -   [x] Add with charge / overdischarge / boost to 5V circuit
--   [ ] Add Li-ION battery
+-   [x] Add Li-ION battery
 -   [x] Circuit & cables
 -   [x] Case
--   [ ] Adapt
+-   [x] Adapt
+-   [ ] RGB LED 
 
 ## 1. LiquidCrystal Library - Hello World circuit
 
@@ -41,6 +52,26 @@ PINOUT (Left to Right) with 2 holes face up, antena faced to the ground:
 3. GPS RX
 4. (3.0V - 5.5V, typical: 5V)
 
-## Magnetic switch
+## 3. Magnetic switch
 
-Ground and
+1. GND
+2. A0 = `const int REED_PIN = A0;`
+
+## 4. RGB LED + INTERNAL LED
+
+Internal led: `LED_BUILTIN`  
+RGB led:
+```cpp
+// RGB LED pins
+const int LED_R_PIN = A1;
+const int LED_G_PIN = A2;
+const int LED_B_PIN = A3
+```
+
+## 5. VCC_BAT_ADC & VREF source
+```cpp
+// ADC VCC BAT for Vumeter
+const int ADC_VCC_BAT = A4
+
+float v_bat = (float)5 * analogRead(ADC_VCC_BAT) / 1024; // 10 BIT int converted to float voltage
+```
